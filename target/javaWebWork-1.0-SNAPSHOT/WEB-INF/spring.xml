@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="datasource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/jdbc?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true&amp;nullCatalogMeansCurrent=true"/>
+        <property name="user" value="root"/>
+        <property name="password" value="liuwenze0501"/>
+    </bean>
+
+    <context:component-scan base-package="mvc.database.utils"/>
+    <context:component-scan base-package="aop"/>
+    <context:component-scan base-package="mvc.database.mapper"/>
+    <context:component-scan base-package="mvc.service"/>
+    <context:component-scan base-package="filter"/>
+    <context:component-scan base-package="mvc.controller"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--多级目录全部拦截-->
+            <mvc:mapping path="/**"/>
+            <!--特殊url不拦截-->
+            <!--登陆界面,静态资源,注册和登录功能对应的方法不拦截,不需要session也能进-->
+            <bean class="filter.LoginFilter" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="servicePointCut" expression="execution(* mvc.service.*Service.*(..))" />
+        <aop:aspect id="serviceAspect" ref="logAspectj">
+            <aop:before method="before" pointcut-ref="servicePointCut" />
+            <aop:after-throwing method="afterThrowing" pointcut-ref="servicePointCut" throwing="e"/>
+            <aop:after-returning method="afterReturning" pointcut-ref="servicePointCut" returning="result"/>
+        </aop:aspect>
+    </aop:config>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="commitAspect" expression="execution(* mvc.database.mapper.*Mapper.*(..))" />
+        <aop:aspect id="serviceAspect" ref="sqlSessionCommit">
+            <aop:after method="after" pointcut-ref="commitAspect" />
+        </aop:aspect>
+    </aop:config>
+
+</beans>

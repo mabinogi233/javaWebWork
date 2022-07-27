@@ -5,31 +5,194 @@
       <artifact name="javaWebWork:war exploded" />
     </artifacts-to-build>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="cf9cc66b-21d0-4406-b538-ff1d859ddbbf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/javaWebWork_war_exploded.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/javaWebWork.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/META-INF/javaWebWork.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createCode.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createImg.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/login.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/index.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/createCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/login.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/javaWebWork.kotlin_module" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/createCode.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/createImg.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/login.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
+    <list default="true" id="cf9cc66b-21d0-4406-b538-ff1d859ddbbf" name="Default Changelist" comment="CQU Java project 3">
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist/createCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist/createImg.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/shelf/Default_Changelist/shelved.patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.annotation.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.ejb.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.jms.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.persistence.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.resource.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/javax.transaction.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/controller/SpringLogin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/controller/login.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/database/JdbcTemplate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/service/JdbcService$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/service/JdbcService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/lib/mysql-connector-java-8.0.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/createCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/createImg.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/database/JdbcTemplate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/mvc/controller/SpringLogin.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/mvc/controller/login.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/mvc/service/JdbcService$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/WEB-INF/classes/mvc/service/JdbcService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.annotation.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.ejb.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.jms.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.persistence.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.resource.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.servlet-api-3.0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.servlet.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.servlet.jsp.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.servlet.jsp.jstl.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/javax.transaction.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/jsp-api-2.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/mysql-connector-java-8.0.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/protobuf-java-3.6.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-aop-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-beans-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-context-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-core-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-expression-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-jcl-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-web-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/unnamed/spring-webmvc-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/aop/LogAspectj.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/aop/SqlSessionCommit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/filter/LoginFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/controller/BookController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/controller/LoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/controller/RootController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/entity/Book.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/entity/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/mapper/DBBookMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/mapper/DBUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/mapper/JdbcBookMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/mapper/JdbcUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/utils/AddMapperBean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/utils/JdbcTemplate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/database/utils/LuceneCompent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/service/BookService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/mvc/service/LoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/generator/generatorConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapping/DBBookMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapping/DBUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/aop/LogAspectj.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/aop/SqlSessionCommit.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/filter/LoginFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/generator/generatorConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapping/DBBookMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapping/DBUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/controller/BookController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/controller/LoginController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/controller/RootController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/entity/Book.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/entity/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/DBBookMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/DBUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcBookMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/mapper/JdbcUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/utils/AddMapperBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/utils/JdbcTemplate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/database/utils/LuceneCompent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/service/BookService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mvc/service/LoginService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mybatis/config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT.war" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/aop/LogAspectj.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/aop/SqlSessionCommit.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/filter/LoginFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/generator/generatorConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mapping/DBBookMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mapping/DBUserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/controller/BookController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/controller/LoginController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/controller/RootController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/entity/Book.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/entity/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/DBBookMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/DBUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcBookMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper$4.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper$5.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/mapper/JdbcUserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/utils/AddMapperBean.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/utils/JdbcTemplate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/database/utils/LuceneCompent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/service/BookService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mvc/service/LoginService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/classes/mybatis/config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/admin.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/create.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/fail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/failop.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/home.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/index.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/succ.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/jsp/update.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/aspectjweaver-1.9.9.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/assertj-core-3.22.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/c3p0-0.9.5.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/fastjson-1.2.28.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/hutool-all-5.2.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/ikanalyzer-2012_u6.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/jstl-1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-analyzers-common-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-core-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-highlighter-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-memory-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-queries-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-queryparser-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/lucene-sandbox-4.10.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/mchange-commons-java-0.2.11.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/mybatis-3.5.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/mysql-connector-java-8.0.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/protobuf-java-3.6.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/servlet-api-2.5.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-aop-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-beans-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-context-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-core-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-expression-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-jcl-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-web-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/spring-webmvc-5.2.10.RELEASE.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/lib/standard-1.1.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/javaWebWork-1.0-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/admin.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/create.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/fail.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/failop.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/index.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/succ.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/update.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-8.0.16.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/WEB-INF/spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,26 +222,24 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.15479875",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\javaWebWork\web" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Tomcat 7.0.103" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.103" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 8.5.57" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.57" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/javaWebWork_war_exploded/" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
@@ -115,6 +276,21 @@
         </SHUTDOWN>
       </ConfigurationWrapper>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -250,73 +426,12 @@
     </task>
     <servers />
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="CQU Java project 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="CQU Java project 3" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="237" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588946940982">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state x="237" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1562.839@0.0.1562.839" timestamp="1588946940982" />
-    <state x="411" y="113" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1588934569253">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state x="411" y="113" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1562.839@0.0.1562.839" timestamp="1588934569253" />
-    <state x="562" y="179" key="FileChooserDialogImpl" timestamp="1588952529473">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state x="562" y="179" key="FileChooserDialogImpl/0.0.1562.839@0.0.1562.839" timestamp="1588952529473" />
-    <state width="1042" height="241" key="GridCell.Tab.0.bottom" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.0.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.0.center" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.0.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.0.left" timestamp="1588951882890">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.0.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882890" />
-    <state width="1042" height="241" key="GridCell.Tab.0.right" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.0.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.1.bottom" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.1.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.1.center" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.1.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.1.left" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.1.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.1.right" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.1.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.2.bottom" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.2.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.2.center" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.2.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.2.left" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.2.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state width="1042" height="241" key="GridCell.Tab.2.right" timestamp="1588951882891">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state width="1042" height="241" key="GridCell.Tab.2.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
-    <state x="262" y="0" key="SettingsEditor" timestamp="1588946205882">
-      <screen x="0" y="0" width="1562" height="839" />
-    </state>
-    <state x="262" y="0" key="SettingsEditor/0.0.1562.839@0.0.1562.839" timestamp="1588946205882" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

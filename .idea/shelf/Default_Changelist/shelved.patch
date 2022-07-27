@@ -1,0 +1,1354 @@
+Index: src/main/java/createCode.java
+===================================================================
+diff --git a/src/main/java/createCode.java b/src/main/java/createCode.java
+deleted file mode 100644
+--- a/src/main/java/createCode.java	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,118 +0,0 @@
+-import javax.imageio.ImageIO;
+-import javax.servlet.ServletException;
+-import javax.servlet.ServletOutputStream;
+-import javax.servlet.http.HttpServlet;
+-import javax.servlet.http.HttpServletRequest;
+-import javax.servlet.http.HttpServletResponse;
+-import javax.servlet.http.HttpSession;
+-import java.awt.*;
+-import java.awt.image.BufferedImage;
+-import java.io.IOException;
+-import java.io.OutputStream;
+-import java.util.Random;
+-
+-public class createCode extends HttpServlet {
+-    public createCode() {
+-        super();
+-    }
+-    @Override
+-    public void destroy() {
+-        super.destroy();
+-    }
+-    @Override
+-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+-        request.setCharacterEncoding("UTF-8");
+-        response.setCharacterEncoding("UTF-8");
+-        //生成验证码图片
+-        createImg codeImg = new createImg();
+-        //必须先执行生成图片，才能获取到文字
+-        BufferedImage img = codeImg.getImage();
+-        String str = codeImg.getText();
+-        //写入验证码
+-        HttpSession session = request.getSession() ;
+-        session.setAttribute("checkcode",str);
+-        //写入图片
+-        ServletOutputStream output = response.getOutputStream();
+-        ImageIO.write(img,"JPEG",output) ;
+-        output.flush();
+-    }
+-    @Override
+-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+-        this.doGet(request,response);
+-    }
+-    public void init() throws ServletException {
+-    }
+-}
+-
+-
+-class createImg{
+-    //宽度
+-    private int w = 70;
+-    //高度
+-    private int h = 35;
+-    //随机生成器
+-    private Random r = new Random();
+-    //可用字体
+-    private String[] fontNames =
+-            { "宋体", "华文楷体", "黑体", "微软雅黑", "楷体_GB2312" };
+-    // 可用字符
+-    private String codes = "0123456789abcdefghjklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+-    // 背景色
+-    private Color bgColor = new Color(255, 255, 255);
+-    // 验证码上的文本
+-    private String text;
+-
+-    // 生成随机的颜色
+-    private Color randomColor() {
+-        int red = r.nextInt(150);
+-        int green = r.nextInt(150);
+-        int blue = r.nextInt(150);
+-        return new Color(red, green, blue);
+-    }
+-
+-    // 生成随机的字体
+-    private Font randomFont() {
+-        int index = r.nextInt(fontNames.length);
+-        String fontName = fontNames[index];// 生成随机的字体名称
+-        int style = r.nextInt(4);// 生成随机的样式, 0(无样式), 1(粗体), 2(斜体), 3(粗体+斜体)
+-        int size = r.nextInt(5) + 24; // 生成随机字号, 24 ~ 28
+-        return new Font(fontName, style, size);
+-    }
+-
+-    // 随机生成一个字符
+-    private char randomChar() {
+-        int index = r.nextInt(codes.length());
+-        return codes.charAt(index);
+-    }
+-
+-    // 创建BufferedImage,缓冲图
+-    private BufferedImage createImage() {
+-        BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+-        Graphics2D g2 = (Graphics2D) image.getGraphics();
+-        g2.setColor(this.bgColor);
+-        g2.fillRect(0, 0, w, h);
+-        return image;
+-    }
+-    //生成验证码
+-    public BufferedImage getImage() {
+-        BufferedImage image = createImage();
+-        Graphics2D g2 = (Graphics2D) image.getGraphics();
+-        StringBuilder fourChars = new StringBuilder();// 用来装载生成的验证码文本
+-        // 向图片中画4个字符
+-        for (int i = 0; i < 4; i++) {// 循环四次，每次生成一个字符
+-            String s = randomChar() + "";// 随机生成一个字母
+-            fourChars.append(s);
+-            float x = i * 1.0F * w / 4; // 设置当前字符的x轴坐标
+-            g2.setFont(randomFont()); // 设置随机字体
+-            g2.setColor(randomColor()); // 设置随机颜色
+-            g2.drawString(s, x, h - 5); // 画图
+-        }
+-        this.text = fourChars.toString(); // 把生成的字符串赋给了this.text
+-        return image;
+-    }
+-
+-    // 返回验证码图片上的文本
+-    public String getText() {
+-        return this.text;
+-    }
+-}
+Index: web/index.jsp
+===================================================================
+diff --git a/web/index.jsp b/web/index.jsp
+deleted file mode 100644
+--- a/web/index.jsp	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,27 +0,0 @@
+-<%--
+-  Created by IntelliJ IDEA.
+-  User: 刘文泽
+-  Date: 2020/5/8
+-  Time: 18:42
+-  To change this template use File | Settings | File Templates.
+---%>
+-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+-<html>
+-<head>
+-  <meta charset="UTF-8">
+-  <title>login WebService</title>
+-</head>
+-
+-
+-
+-<body>
+-<form method='post' action='login'>
+-  <input type='text' name='username'><br/>
+-  <input type='password' name='password'><br/>
+-  <input type='text' name='checkcode'><br/>
+-  <img id="imgCode" src="createCode" onclick="this.src=this.src+'?'"/>
+-  <input type="button" value="change" id="btn" onclick="imgCode.src=imgCode.src+'?'">
+-  <input type="submit" value="login">
+-</form>
+-</body>
+-</html>
+Index: javaWebWork.iml
+===================================================================
+diff --git a/javaWebWork.iml b/javaWebWork.iml
+deleted file mode 100644
+--- a/javaWebWork.iml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,19 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<module type="JAVA_MODULE" version="4">
+-  <component name="FacetManager">
+-    <facet type="web" name="Web">
+-      <configuration>
+-        <descriptors>
+-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
+-        </descriptors>
+-        <webroots>
+-          <root url="file://$MODULE_DIR$/web" relative="/" />
+-        </webroots>
+-        <sourceRoots>
+-          <root url="file://$MODULE_DIR$/src/main/java" />
+-          <root url="file://$MODULE_DIR$/src/main/resources" />
+-        </sourceRoots>
+-      </configuration>
+-    </facet>
+-  </component>
+-</module>
+\ No newline at end of file
+Index: .idea/artifacts/javaWebWork_war_exploded.xml
+===================================================================
+diff --git a/.idea/artifacts/javaWebWork_war_exploded.xml b/.idea/artifacts/javaWebWork_war_exploded.xml
+deleted file mode 100644
+--- a/.idea/artifacts/javaWebWork_war_exploded.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,13 +0,0 @@
+-<component name="ArtifactManager">
+-  <artifact type="exploded-war" name="javaWebWork:war exploded">
+-    <output-path>$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded</output-path>
+-    <root id="root">
+-      <element id="javaee-facet-resources" facet="javaWebWork/web/Web" />
+-      <element id="directory" name="WEB-INF">
+-        <element id="directory" name="classes">
+-          <element id="module-output" name="javaWebWork" />
+-        </element>
+-      </element>
+-    </root>
+-  </artifact>
+-</component>
+\ No newline at end of file
+Index: src/main/java/login.java
+===================================================================
+diff --git a/src/main/java/login.java b/src/main/java/login.java
+deleted file mode 100644
+--- a/src/main/java/login.java	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,75 +0,0 @@
+-import java.io.IOException;
+-import java.io.PrintWriter;
+-import javax.servlet.ServletException;
+-import javax.servlet.annotation.WebServlet;
+-import javax.servlet.http.HttpServlet;
+-import javax.servlet.http.HttpServletRequest;
+-import javax.servlet.http.HttpServletResponse;
+-import javax.servlet.http.HttpSession;
+-
+-
+-//登陆类
+-@WebServlet("/login")
+-public class login extends HttpServlet {
+-
+-    public login() {
+-        super();
+-    }
+-    @Override
+-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+-        this.doPost(request,response);
+-    }
+-    @Override
+-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+-        //获取用户名，密码和验证码
+-        request.setCharacterEncoding("UTF-8");
+-        response.setCharacterEncoding("UTF-8");
+-        String username = request.getParameter("username");
+-        String password = request.getParameter("password");
+-        String inputcheckcode = request.getParameter("checkcode");
+-        //获取真实验证码
+-        HttpSession session = request.getSession();
+-        String checkcode= (String) session.getAttribute("checkcode");
+-        //验证用户名,密码,验证码
+-        if( loginCheck(username, password)&&check(checkcode,inputcheckcode)){
+-            //返回html界面，表示登录成功
+-            response.setContentType("text/html");
+-            response.setCharacterEncoding("utf-8");
+-            PrintWriter out = response.getWriter();
+-            out.println("<!DOCTYPE html>");
+-            out.println("<html>");
+-            out.println("<head>");
+-            out.println("</head>");
+-            out.println("<body>");
+-            out.println("<h1>"+ request.getParameter("username")+" 登陆成功！</h1>");
+-            out.println("</body>");
+-            out.println("</html>");
+-            out.flush();
+-            out.close();
+-        } else {
+-            //重定向首页
+-            response.sendRedirect("index.jsp");
+-        }
+-    }
+-    //判断验证码
+-    private boolean check(String yanZheng,String inputYanZheng){
+-        if(yanZheng!=null&&inputYanZheng!=null) {
+-            //忽略大小写比较
+-            if (yanZheng.equalsIgnoreCase(inputYanZheng)) {
+-                return true;
+-            }
+-        }
+-        return false;
+-    }
+-
+-    //比较用户名和密码，暂时无限制
+-    private boolean loginCheck(String username, String password){
+-        if( username!=null && password != null){
+-            //非空
+-            if(!username.equals("")&&!password.equals("")) {
+-                return true;
+-            }
+-        }
+-        return false;
+-    }
+-}
+Index: out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml
+===================================================================
+diff --git a/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml b/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml
+deleted file mode 100644
+--- a/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ /dev/null	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
+@@ -1,20 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+-         version="4.0">
+-
+-
+-    <servlet>
+-        <servlet-name>createCode</servlet-name>
+-        <servlet-class>createCode</servlet-class>
+-    </servlet>
+-
+-    <servlet-mapping>
+-        <servlet-name>createCode</servlet-name>
+-        <url-pattern>/createCode</url-pattern>
+-    </servlet-mapping>
+-
+-
+-</web-app>
+-
+Index: out/artifacts/javaWebWork_war_exploded/index.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><%--\n  Created by IntelliJ IDEA.\n  User: 刘文泽\n  Date: 2020/5/8\n  Time: 18:42\n  To change this template use File | Settings | File Templates.\n--%>\n<%@ page contentType=\"text/html;charset=UTF-8\" language=\"java\" %>\n<html>\n<head>\n  <meta charset=\"UTF-8\">\n  <title>login WebService</title>\n</head>\n\n\n\n<body>\n<form method='post' action='login'>\n  <input type='text' name='username'><br/>\n  <input type='password' name='password'><br/>\n  <input type='text' name='checkcode'><br/>\n  <img id=\"imgCode\" src=\"createCode\" onclick=\"this.src=this.src+'?'\"/>\n  <input type=\"button\" value=\"change\" id=\"btn\" onclick=\"imgCode.src=imgCode.src+'?'\">\n  <input type=\"submit\" value=\"login\">\n</form>\n<script type=\"text/javascript\">\n  function reload(){\n    var img = document.getElementById('imgCode');\n    img.src=\"createCode\";\n  }\n</script>\n</body>\n</html>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/out/artifacts/javaWebWork_war_exploded/index.jsp b/out/artifacts/javaWebWork_war_exploded/index.jsp
+--- a/out/artifacts/javaWebWork_war_exploded/index.jsp	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/out/artifacts/javaWebWork_war_exploded/index.jsp	(date 1588951786012)
+@@ -23,11 +23,5 @@
+   <input type="button" value="change" id="btn" onclick="imgCode.src=imgCode.src+'?'">
+   <input type="submit" value="login">
+ </form>
+-<script type="text/javascript">
+-  function reload(){
+-    var img = document.getElementById('imgCode');
+-    img.src="createCode";
+-  }
+-</script>
+ </body>
+ </html>
+Index: .idea/javaWebWork.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/javaWebWork.iml b/.idea/javaWebWork.iml
+new file mode 100644
+--- /dev/null	(date 1658882497176)
++++ b/.idea/javaWebWork.iml	(date 1658882497176)
+@@ -0,0 +1,19 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module version="4">
++  <component name="FacetManager">
++    <facet type="web" name="Web">
++      <configuration>
++        <descriptors>
++          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/web/WEB-INF/web.xml" />
++        </descriptors>
++        <webroots>
++          <root url="file://$MODULE_DIR$/web" relative="/" />
++        </webroots>
++        <sourceRoots>
++          <root url="file://$MODULE_DIR$/src/main/java" />
++          <root url="file://$MODULE_DIR$/src/main/resources" />
++        </sourceRoots>
++      </configuration>
++    </facet>
++  </component>
++</module>
+\ No newline at end of file
+Index: out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Manifest-Version: 1.0\nCreated-By: IntelliJ IDEA\nBuilt-By: 刘文泽\nBuild-Jdk: 11.0.5\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF b/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF
+--- a/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF	(date 1658746145462)
+@@ -1,5 +1,5 @@
+ Manifest-Version: 1.0
+ Created-By: IntelliJ IDEA
+-Built-By: 刘文泽
+-Build-Jdk: 11.0.5
++Built-By: liuwenze
++Build-Jdk: Oracle OpenJDK version 11.0.15
+ 
+Index: .idea/libraries/Java_EE_6_Java_EE_6.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/libraries/Java_EE_6_Java_EE_6.xml b/.idea/libraries/Java_EE_6_Java_EE_6.xml
+new file mode 100644
+--- /dev/null	(date 1601482888766)
++++ b/.idea/libraries/Java_EE_6_Java_EE_6.xml	(date 1601482888766)
+@@ -0,0 +1,17 @@
++<component name="libraryTable">
++  <library name="Java EE 6-Java EE 6">
++    <CLASSES>
++      <root url="jar://$PROJECT_DIR$/lib/javax.persistence.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.jms.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.transaction.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.resource.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.annotation.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.ejb.jar!/" />
++      <root url="jar://$PROJECT_DIR$/lib/javax.servlet.jsp.jstl.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/artifacts/unnamed.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/artifacts/unnamed.xml b/.idea/artifacts/unnamed.xml
+new file mode 100644
+--- /dev/null	(date 1658746930463)
++++ b/.idea/artifacts/unnamed.xml	(date 1658746930463)
+@@ -0,0 +1,26 @@
++<component name="ArtifactManager">
++  <artifact type="exploded-war" name="unnamed">
++    <output-path>$PROJECT_DIR$/out/artifacts/unnamed</output-path>
++    <root id="root">
++      <element id="library" level="project" name="Java EE 6-Java EE 6" />
++      <element id="library" level="project" name="Maven: com.google.protobuf:protobuf-java:3.6.1" />
++      <element id="library" level="project" name="Maven: javax.servlet.jsp:jsp-api:2.2" />
++      <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.0.1" />
++      <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.16" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-context:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-core:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-expression:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-web:5.2.10.RELEASE" />
++      <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:5.2.10.RELEASE" />
++      <element id="library" level="project" name="mysql-connector-java-8.0.16" />
++      <element id="directory" name="WEB-INF">
++        <element id="directory" name="classes">
++          <element id="module-output" name="javaWebWork" />
++        </element>
++      </element>
++    </root>
++  </artifact>
++</component>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1658454559527)
++++ b/.idea/jarRepositories.xml	(date 1658454559527)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public/" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/uiDesigner.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/uiDesigner.xml b/.idea/uiDesigner.xml
+new file mode 100644
+--- /dev/null	(date 1658486598523)
++++ b/.idea/uiDesigner.xml	(date 1658486598523)
+@@ -0,0 +1,124 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Palette2">
++    <group name="Swing">
++      <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="1" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="com.intellij.uiDesigner.VSpacer" tooltip-text="Vertical Spacer" icon="/com/intellij/uiDesigner/icons/vspacer.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="1" anchor="0" fill="2" />
++      </item>
++      <item class="javax.swing.JPanel" icon="/com/intellij/uiDesigner/icons/panel.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JScrollPane" icon="/com/intellij/uiDesigner/icons/scrollPane.svg" removable="false" auto-create-binding="false" can-attach-label="true">
++        <default-constraints vsize-policy="7" hsize-policy="7" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JButton" icon="/com/intellij/uiDesigner/icons/button.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="0" fill="1" />
++        <initial-values>
++          <property name="text" value="Button" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JRadioButton" icon="/com/intellij/uiDesigner/icons/radioButton.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="RadioButton" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JCheckBox" icon="/com/intellij/uiDesigner/icons/checkBox.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="3" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="CheckBox" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JLabel" icon="/com/intellij/uiDesigner/icons/label.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="8" fill="0" />
++        <initial-values>
++          <property name="text" value="Label" />
++        </initial-values>
++      </item>
++      <item class="javax.swing.JTextField" icon="/com/intellij/uiDesigner/icons/textField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JPasswordField" icon="/com/intellij/uiDesigner/icons/passwordField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JFormattedTextField" icon="/com/intellij/uiDesigner/icons/formattedTextField.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1">
++          <preferred-size width="150" height="-1" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextArea" icon="/com/intellij/uiDesigner/icons/textArea.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTextPane" icon="/com/intellij/uiDesigner/icons/textPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JEditorPane" icon="/com/intellij/uiDesigner/icons/editorPane.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JComboBox" icon="/com/intellij/uiDesigner/icons/comboBox.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="2" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JTable" icon="/com/intellij/uiDesigner/icons/table.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JList" icon="/com/intellij/uiDesigner/icons/list.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="2" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTree" icon="/com/intellij/uiDesigner/icons/tree.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
++          <preferred-size width="150" height="50" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JTabbedPane" icon="/com/intellij/uiDesigner/icons/tabbedPane.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSplitPane" icon="/com/intellij/uiDesigner/icons/splitPane.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
++          <preferred-size width="200" height="200" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JSpinner" icon="/com/intellij/uiDesigner/icons/spinner.svg" removable="false" auto-create-binding="true" can-attach-label="true">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSlider" icon="/com/intellij/uiDesigner/icons/slider.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="8" fill="1" />
++      </item>
++      <item class="javax.swing.JSeparator" icon="/com/intellij/uiDesigner/icons/separator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="6" anchor="0" fill="3" />
++      </item>
++      <item class="javax.swing.JProgressBar" icon="/com/intellij/uiDesigner/icons/progressbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JToolBar" icon="/com/intellij/uiDesigner/icons/toolbar.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="6" anchor="0" fill="1">
++          <preferred-size width="-1" height="20" />
++        </default-constraints>
++      </item>
++      <item class="javax.swing.JToolBar$Separator" icon="/com/intellij/uiDesigner/icons/toolbarSeparator.svg" removable="false" auto-create-binding="false" can-attach-label="false">
++        <default-constraints vsize-policy="0" hsize-policy="0" anchor="0" fill="1" />
++      </item>
++      <item class="javax.swing.JScrollBar" icon="/com/intellij/uiDesigner/icons/scrollbar.svg" removable="false" auto-create-binding="true" can-attach-label="false">
++        <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
++      </item>
++    </group>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/libraries/mysql_connector_java_8_0_16.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/libraries/mysql_connector_java_8_0_16.xml b/.idea/libraries/mysql_connector_java_8_0_16.xml
+new file mode 100644
+--- /dev/null	(date 1658485910552)
++++ b/.idea/libraries/mysql_connector_java_8_0_16.xml	(date 1658485910552)
+@@ -0,0 +1,9 @@
++<component name="libraryTable">
++  <library name="mysql-connector-java-8.0.16">
++    <CLASSES>
++      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-8.0.16.jar!/" />
++    </CLASSES>
++    <JAVADOC />
++    <SOURCES />
++  </library>
++</component>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"MavenProjectsManager\">\n    <option name=\"originalFiles\">\n      <list>\n        <option value=\"$PROJECT_DIR$/pom.xml\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" project-jdk-name=\"11\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/out\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/.idea/misc.xml	(date 1658747742780)
+@@ -1,6 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="FrameworkDetectionExcludesConfiguration">
++    <file type="web" url="file://$PROJECT_DIR$" />
++  </component>
+   <component name="MavenProjectsManager">
+     <option name="originalFiles">
+       <list>
+Index: web/WEB-INF/web.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<web-app xmlns=\"http://xmlns.jcp.org/xml/ns/javaee\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd\"\n         version=\"4.0\">\n\n\n    <servlet>\n        <servlet-name>createCode</servlet-name>\n        <servlet-class>createCode</servlet-class>\n    </servlet>\n\n    <servlet-mapping>\n        <servlet-name>createCode</servlet-name>\n        <url-pattern>/createCode</url-pattern>\n    </servlet-mapping>\n\n\n</web-app>\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/WEB-INF/web.xml b/web/WEB-INF/web.xml
+--- a/web/WEB-INF/web.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/web/WEB-INF/web.xml	(date 1658835677756)
+@@ -1,20 +1,38 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+-         version="4.0">
++         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
++                      http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
++         version="3.1">
+ 
++    <display-name>Archetype Created Web Application</display-name>
+ 
+     <servlet>
+-        <servlet-name>createCode</servlet-name>
+-        <servlet-class>createCode</servlet-class>
++        <servlet-name>springmvc</servlet-name>
++        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
++        <init-param>
++            <param-name>contextConfigLocation</param-name>
++            <param-value>/WEB-INF/spring.xml</param-value>
++        </init-param>
+     </servlet>
+ 
+     <servlet-mapping>
+-        <servlet-name>createCode</servlet-name>
+-        <url-pattern>/createCode</url-pattern>
++        <servlet-name>springmvc</servlet-name>
++        <url-pattern>/</url-pattern>
+     </servlet-mapping>
+ 
++    <filter>
++        <filter-name>setEncoding</filter-name>
++        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
++        <init-param>
++            <param-name>encoding</param-name>
++            <param-value>UTF-8</param-value>
++        </init-param>
++    </filter>
++    <filter-mapping>
++        <filter-name>setEncoding</filter-name>
++        <url-pattern>/*</url-pattern>
++    </filter-mapping>
+ 
+ </web-app>
+ 
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n    <modelVersion>4.0.0</modelVersion>\n\n    <groupId>org.example</groupId>\n    <artifactId>javaWebWork</artifactId>\n    <version>1.0-SNAPSHOT</version>\n\n\n    <dependencies>\n        <!-- 引入servlet-api和jsp-api -->\n        <dependency>\n            <groupId>javax.servlet</groupId>\n            <artifactId>javax.servlet-api</artifactId>\n            <version>3.0.1</version>\n            <scope>provided</scope>\n        </dependency>\n        <dependency>\n            <groupId>javax.servlet.jsp</groupId>\n            <artifactId>jsp-api</artifactId>\n            <version>2.2</version>\n            <scope>provided</scope>\n        </dependency>\n\n    </dependencies>\n\n\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/pom.xml	(date 1658888151554)
+@@ -3,28 +3,157 @@
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+     <modelVersion>4.0.0</modelVersion>
+-
+     <groupId>org.example</groupId>
+     <artifactId>javaWebWork</artifactId>
+     <version>1.0-SNAPSHOT</version>
+-
+-
++    <packaging>war</packaging>
+     <dependencies>
+-        <!-- 引入servlet-api和jsp-api -->
++        <!-- 数据库驱动 mysql8.0 -->
++        <dependency>
++            <groupId>mysql</groupId>
++            <artifactId>mysql-connector-java</artifactId>
++            <version>8.0.16</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework</groupId>
++            <artifactId>spring-context</artifactId>
++            <version>5.2.10.RELEASE</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework</groupId>
++            <artifactId>spring-web</artifactId>
++            <version>5.2.10.RELEASE</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework</groupId>
++            <artifactId>spring-webmvc</artifactId>
++            <version>5.2.10.RELEASE</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework</groupId>
++            <artifactId>spring-core</artifactId>
++            <version>5.2.10.RELEASE</version>
++        </dependency>
++
++        <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
++        <dependency>
++            <groupId>org.aspectj</groupId>
++            <artifactId>aspectjweaver</artifactId>
++            <version>1.9.9.1</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.springframework</groupId>
++            <artifactId>spring-aop</artifactId>
++            <version>5.2.10.RELEASE</version>
++        </dependency>
++
++        <dependency>
++            <groupId>org.assertj</groupId>
++            <artifactId>assertj-core</artifactId>
++            <version>3.22.0</version>
++        </dependency>
++
++
++        <dependency>
++            <groupId>com.mchange</groupId>
++            <artifactId>c3p0</artifactId>
++            <version>0.9.5.2</version>
++        </dependency>
++
++        <!-- lucene核心库 -->
++        <dependency>
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-core</artifactId>
++            <version>4.10.2</version>
++        </dependency>
++        <!-- Lucene的查询解析器 -->
++        <dependency>
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-queryparser</artifactId>
++            <version>4.10.2</version>
++        </dependency>
++        <!-- lucene的默认分词器库 -->
++        <dependency>
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-analyzers-common</artifactId>
++            <version>4.10.2</version>
++        </dependency>
++        <dependency>
++            <groupId>com.janeluo</groupId>
++            <artifactId>ikanalyzer</artifactId>
++            <version>2012_u6</version>
++        </dependency>
++        <!-- lucene的高亮显示 -->
++        <dependency>
++            <groupId>org.apache.lucene</groupId>
++            <artifactId>lucene-highlighter</artifactId>
++            <version>4.10.2</version>
++        </dependency>
++
+         <dependency>
+             <groupId>javax.servlet</groupId>
+-            <artifactId>javax.servlet-api</artifactId>
+-            <version>3.0.1</version>
+-            <scope>provided</scope>
++            <artifactId>servlet-api</artifactId>
++            <version>2.5</version>
++        </dependency>
++
++        <!-- JSONObject生成与解析 -->
++        <dependency>
++            <groupId>com.alibaba</groupId>
++            <artifactId>fastjson</artifactId>
++            <version>1.2.28</version>
++        </dependency>
++
++        <dependency>
++            <groupId>taglibs</groupId>
++            <artifactId>standard</artifactId>
++            <version>1.1.2</version>
++        </dependency>
++        <dependency>
++            <groupId>jstl</groupId>
++            <artifactId>jstl</artifactId>
++            <version>1.2</version>
+         </dependency>
++
++        <!-- mybatis -->
+         <dependency>
+-            <groupId>javax.servlet.jsp</groupId>
+-            <artifactId>jsp-api</artifactId>
+-            <version>2.2</version>
+-            <scope>provided</scope>
++            <groupId>org.mybatis</groupId>
++            <artifactId>mybatis</artifactId>
++            <version>3.5.0</version>
+         </dependency>
+ 
++
+     </dependencies>
++    <build>
++        <plugins>
++
++            <plugin>
++                <groupId>org.apache.maven.plugins</groupId>
++                <artifactId>maven-compiler-plugin</artifactId>
++                <configuration>
+ 
++                    <source>1.8</source>
++                    <target>1.8</target>
++                </configuration>
++            </plugin>
+ 
++            <!-- mybatis generator 自动生成代码插件 -->
++            <plugin>
++                <groupId>org.mybatis.generator</groupId>
++                <artifactId>mybatis-generator-maven-plugin</artifactId>
++                <version>1.3.6</version>
++                <configuration>
++                    <configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
++                    <overwrite>true</overwrite>
++                    <verbose>true</verbose>
++                </configuration>
++            </plugin>
++
++
++        </plugins>
++    </build>
+ </project>
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ArtifactsWorkspaceSettings\">\n    <artifacts-to-build>\n      <artifact name=\"javaWebWork:war exploded\" />\n    </artifacts-to-build>\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"cf9cc66b-21d0-4406-b538-ff1d859ddbbf\" name=\"Default Changelist\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.idea/.gitignore\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/artifacts/javaWebWork_war_exploded.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/javaWebWork.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/META-INF/javaWebWork.kotlin_module\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createCode.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createImg.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/login.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/index.jsp\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/pom.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/createCode.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/main/java/login.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/target/classes/META-INF/javaWebWork.kotlin_module\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/target/classes/createCode.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/target/classes/createImg.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/target/classes/login.class\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/web/WEB-INF/web.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/web/index.jsp\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Jsp File\" />\n        <option value=\"jsf\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"LogFilters\">\n    <option name=\"FILTER_ERRORS\" value=\"false\" />\n    <option name=\"FILTER_WARNINGS\" value=\"false\" />\n    <option name=\"FILTER_INFO\" value=\"true\" />\n    <option name=\"FILTER_DEBUG\" value=\"true\" />\n    <option name=\"CUSTOM_FILTER\" />\n  </component>\n  <component name=\"ProjectId\" id=\"1bcbpBbzXVNmiRbfMYRZMagtmtv\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showExcludedFiles\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\n    <property name=\"aspect.path.notification.shown\" value=\"true\" />\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\n    <property name=\"project.structure.last.edited\" value=\"Modules\" />\n    <property name=\"project.structure.proportion\" value=\"0.0\" />\n    <property name=\"project.structure.side.proportion\" value=\"0.0\" />\n    <property name=\"settings.editor.selected.configurable\" value=\"reference.projectsettings.compiler.javacompiler\" />\n  </component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"D:\\javaWebWork\\web\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"Tomcat 7.0.103\" type=\"#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory\" factoryName=\"Local\" APPLICATION_SERVER_NAME=\"Tomcat 7.0.103\" ALTERNATIVE_JRE_ENABLED=\"false\" nameIsGenerated=\"true\">\n      <option name=\"OPEN_IN_BROWSER_URL\" value=\"http://localhost:8080/javaWebWork_war_exploded/\" />\n      <option name=\"UPDATING_POLICY\" value=\"restart-server\" />\n      <deployment>\n        <artifact name=\"javaWebWork:war exploded\">\n          <settings>\n            <option name=\"CONTEXT_PATH\" value=\"/javaWebWork_war_exploded\" />\n          </settings>\n        </artifact>\n      </deployment>\n      <server-settings>\n        <option name=\"BASE_DIRECTORY_NAME\" value=\"Unnamed_javaWebWork\" />\n      </server-settings>\n      <predefined_log_file enabled=\"true\" id=\"Tomcat\" />\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Catalina\" />\n      <predefined_log_file id=\"Tomcat Manager\" />\n      <predefined_log_file id=\"Tomcat Host Manager\" />\n      <predefined_log_file id=\"Tomcat Localhost Access\" />\n      <RunnerSettings RunnerId=\"Debug\">\n        <option name=\"DEBUG_PORT\" value=\"52209\" />\n      </RunnerSettings>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Cover\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Debug\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Run\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n        <option name=\"BuildArtifacts\" enabled=\"true\">\n          <artifact name=\"javaWebWork:war exploded\" />\n        </option>\n      </method>\n    </configuration>\n    <configuration default=\"true\" type=\"#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory\" factoryName=\"Local\" ALTERNATIVE_JRE_ENABLED=\"false\">\n      <deployment />\n      <server-settings>\n        <option name=\"BASE_DIRECTORY_NAME\" value=\"_javaWebWork\" />\n      </server-settings>\n      <predefined_log_file enabled=\"true\" id=\"Tomcat\" />\n      <predefined_log_file enabled=\"true\" id=\"Tomcat Catalina\" />\n      <predefined_log_file id=\"Tomcat Manager\" />\n      <predefined_log_file id=\"Tomcat Host Manager\" />\n      <predefined_log_file id=\"Tomcat Localhost Access\" />\n      <RunnerSettings RunnerId=\"Debug\">\n        <option name=\"DEBUG_PORT\" value=\"52209\" />\n      </RunnerSettings>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Cover\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Debug\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <ConfigurationWrapper VM_VAR=\"JAVA_OPTS\" RunnerId=\"Run\">\n        <option name=\"USE_ENV_VARIABLES\" value=\"true\" />\n        <STARTUP>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </STARTUP>\n        <SHUTDOWN>\n          <option name=\"USE_DEFAULT\" value=\"true\" />\n          <option name=\"SCRIPT\" value=\"\" />\n          <option name=\"VM_PARAMETERS\" value=\"\" />\n          <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\n        </SHUTDOWN>\n      </ConfigurationWrapper>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n  </component>\n  <component name=\"ServiceViewManager\">\n    <option name=\"viewStates\">\n      <list>\n        <serviceView>\n          <treeState>\n            <expand>\n              <path>\n                <item name=\"services root\" type=\"e789fda9:ObjectUtils$Sentinel\" />\n                <item name=\"Tomcat Server\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\n              </path>\n              <path>\n                <item name=\"services root\" type=\"e789fda9:ObjectUtils$Sentinel\" />\n                <item name=\"Tomcat Server\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\n                <item name=\"Finished\" type=\"7427dc5b:ServiceModel$ServiceGroupNode\" />\n              </path>\n            </expand>\n            <select />\n          </treeState>\n        </serviceView>\n      </list>\n    </option>\n  </component>\n  <component name=\"SvnConfiguration\">\n    <configuration />\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"cf9cc66b-21d0-4406-b538-ff1d859ddbbf\" name=\"Default Changelist\" comment=\"\" />\n      <created>1588934509358</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1588934509358</updated>\n      <workItem from=\"1588934516151\" duration=\"16623000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"1\" />\n  </component>\n  <component name=\"WindowStateProjectService\">\n    <state x=\"237\" y=\"79\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1588946940982\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state x=\"237\" y=\"79\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1562.839@0.0.1562.839\" timestamp=\"1588946940982\" />\n    <state x=\"411\" y=\"113\" key=\"#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog\" timestamp=\"1588934569253\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state x=\"411\" y=\"113\" key=\"#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1562.839@0.0.1562.839\" timestamp=\"1588934569253\" />\n    <state x=\"562\" y=\"179\" key=\"FileChooserDialogImpl\" timestamp=\"1588952529473\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state x=\"562\" y=\"179\" key=\"FileChooserDialogImpl/0.0.1562.839@0.0.1562.839\" timestamp=\"1588952529473\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.bottom/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.center\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.center/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.left\" timestamp=\"1588951882890\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.left/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882890\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.right\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.0.right/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.bottom\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.bottom/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.center\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.center/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.left\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.left/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.right\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.1.right/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.bottom\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.bottom/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.center\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.center/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.left\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.left/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.right\" timestamp=\"1588951882891\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state width=\"1042\" height=\"241\" key=\"GridCell.Tab.2.right/0.0.1562.839@0.0.1562.839\" timestamp=\"1588951882891\" />\n    <state x=\"262\" y=\"0\" key=\"SettingsEditor\" timestamp=\"1588946205882\">\n      <screen x=\"0\" y=\"0\" width=\"1562\" height=\"839\" />\n    </state>\n    <state x=\"262\" y=\"0\" key=\"SettingsEditor/0.0.1562.839@0.0.1562.839\" timestamp=\"1588946205882\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 9bb1ffbb16b3c3ab95463e8e04b660255a47629c)
++++ b/.idea/workspace.xml	(date 1658914017100)
+@@ -5,31 +5,41 @@
+       <artifact name="javaWebWork:war exploded" />
+     </artifacts-to-build>
+   </component>
++  <component name="AutoImportSettings">
++    <option name="autoReloadType" value="SELECTIVE" />
++  </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="cf9cc66b-21d0-4406-b538-ff1d859ddbbf" name="Default Changelist" comment="">
+-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/javaWebWork_war_exploded.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/javaWebWork.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/META-INF/javaWebWork.kotlin_module" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createCode.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createImg.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/login.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/index.jsp" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/createCode.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/main/java/login.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/javaWebWork.kotlin_module" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/target/classes/createCode.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/target/classes/createImg.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/target/classes/login.class" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
++    <list default="true" id="cf9cc66b-21d0-4406-b538-ff1d859ddbbf" name="Default Changelist" comment="CQU Java project 3">
++      <change afterPath="$PROJECT_DIR$/.idea/artifacts/unnamed.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/javaWebWork.iml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/libraries/Java_EE_6_Java_EE_6.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_8_0_16.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/main/resources/mybatis/config.xml" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/web/WEB-INF/jsp/home.jsp" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/artifacts/javaWebWork_war_exploded.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/javaWebWork.iml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/META-INF/MANIFEST.MF" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createCode.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createImg.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/createImg.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/classes/login.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/WEB-INF/web.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/javaWebWork_war_exploded/index.jsp" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/createCode.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/main/java/login.java" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/javaWebWork.kotlin_module" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/createCode.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/createImg.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/login.class" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/web/index.jsp" beforeDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -39,8 +49,11 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
++        <option value="jsf" />
++        <option value="spring-beans.schema" />
++        <option value="HTML File" />
+         <option value="Jsp File" />
+-        <option value="jsf" />
++        <option value="Interface" />
+         <option value="Class" />
+       </list>
+     </option>
+@@ -48,6 +61,13 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="IgnoredFileRootStore">
++    <option name="generatedRoots">
++      <set>
++        <option value="D:\javaWebWork\.idea" />
++      </set>
++    </option>
++  </component>
+   <component name="LogFilters">
+     <option name="FILTER_ERRORS" value="false" />
+     <option name="FILTER_WARNINGS" value="false" />
+@@ -55,41 +75,83 @@
+     <option name="FILTER_DEBUG" value="true" />
+     <option name="CUSTOM_FILTER" />
+   </component>
++  <component name="MarkdownSettingsMigration">
++    <option name="stateVersion" value="1" />
++  </component>
++  <component name="MavenImportPreferences">
++    <option name="generalSettings">
++      <MavenGeneralSettings>
++        <option name="localRepository" value="$USER_HOME$/Downloads/MAVEN_SPACE" />
++        <option name="mavenHome" value="$USER_HOME$/Downloads/apache-maven-3.8.6" />
++        <option name="userSettingsFile" value="$USER_HOME$/Downloads/apache-maven-3.8.6/conf/settings.xml" />
++      </MavenGeneralSettings>
++    </option>
++  </component>
+   <component name="ProjectId" id="1bcbpBbzXVNmiRbfMYRZMagtmtv" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+-    <option name="showExcludedFiles" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">
+-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+-    <property name="WebServerToolWindowFactoryState" value="false" />
+-    <property name="aspect.path.notification.shown" value="true" />
+-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+-    <property name="project.structure.last.edited" value="Modules" />
+-    <property name="project.structure.proportion" value="0.0" />
+-    <property name="project.structure.side.proportion" value="0.0" />
+-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+-  </component>
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "DefaultHtmlFileTemplate": "HTML File",
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
++    "WebServerToolWindowFactoryState": "false",
++    "last_opened_file_path": "/Users/liuwenze/Documents/codes/codes/javaWebWork",
++    "project.structure.last.edited": "Modules",
++    "project.structure.proportion": "0.15",
++    "project.structure.side.proportion": "0.15479875",
++    "settings.editor.selected.configurable": "MavenSettings",
++    "spring.configuration.checksum": "cc10cec2b208e1777dd9fc8b2bbf4da9"
++  }
++}]]></component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/src/main/resources/generator" />
++      <recent name="$PROJECT_DIR$/src/main/resources" />
++      <recent name="$PROJECT_DIR$/src/main/java/service" />
++      <recent name="$PROJECT_DIR$/web/WEB-INF/lib" />
+       <recent name="D:\javaWebWork\web" />
+     </key>
++    <key name="MoveFile.RECENT_KEYS">
++      <recent name="$PROJECT_DIR$/web/WEB-INF/jsp" />
++      <recent name="$PROJECT_DIR$/web/WEB-INF" />
++      <recent name="$PROJECT_DIR$/web/jsp" />
++    </key>
++    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
++      <recent name="" />
++    </key>
+   </component>
+-  <component name="RunManager">
+-    <configuration name="Tomcat 7.0.103" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.103" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/javaWebWork_war_exploded/" />
++  <component name="RunManager" selected="Tomcat Server.Tomcat 8.5.57">
++    <configuration name="AddMapperBean" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
++      <option name="MAIN_CLASS_NAME" value="mvc.database.utils.AddMapperBean" />
++      <module name="javaWebWork" />
++      <extension name="coverage">
++        <pattern>
++          <option name="PATTERN" value="mvc.database.utils.*" />
++          <option name="ENABLED" value="true" />
++        </pattern>
++      </extension>
++      <method v="2">
++        <option name="Make" enabled="true" />
++      </method>
++    </configuration>
++    <configuration name="Tomcat 8.5.57" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.57" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
++      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8222" />
+       <option name="UPDATING_POLICY" value="restart-server" />
+       <deployment>
+         <artifact name="javaWebWork:war exploded">
+           <settings>
+-            <option name="CONTEXT_PATH" value="/javaWebWork_war_exploded" />
++            <option name="CONTEXT_PATH" value="" />
+           </settings>
+         </artifact>
+       </deployment>
+       <server-settings>
+         <option name="BASE_DIRECTORY_NAME" value="Unnamed_javaWebWork" />
++        <option name="HTTP_PORT" value="8222" />
+       </server-settings>
+       <predefined_log_file enabled="true" id="Tomcat" />
+       <predefined_log_file enabled="true" id="Tomcat Catalina" />
+@@ -115,6 +177,21 @@
+         </SHUTDOWN>
+       </ConfigurationWrapper>
+       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
++        <option name="USE_ENV_VARIABLES" value="true" />
++        <STARTUP>
++          <option name="USE_DEFAULT" value="true" />
++          <option name="SCRIPT" value="" />
++          <option name="VM_PARAMETERS" value="" />
++          <option name="PROGRAM_PARAMETERS" value="" />
++        </STARTUP>
++        <SHUTDOWN>
++          <option name="USE_DEFAULT" value="true" />
++          <option name="SCRIPT" value="" />
++          <option name="VM_PARAMETERS" value="" />
++          <option name="PROGRAM_PARAMETERS" value="" />
++        </SHUTDOWN>
++      </ConfigurationWrapper>
++      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+         <option name="USE_ENV_VARIABLES" value="true" />
+         <STARTUP>
+           <option name="USE_DEFAULT" value="true" />
+@@ -213,29 +290,13 @@
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-  </component>
+-  <component name="ServiceViewManager">
+-    <option name="viewStates">
++    <recent_temporary>
+       <list>
+-        <serviceView>
+-          <treeState>
+-            <expand>
+-              <path>
+-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+-                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-              </path>
+-              <path>
+-                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+-                <item name="Tomcat Server" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-                <item name="Finished" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+-              </path>
+-            </expand>
+-            <select />
+-          </treeState>
+-        </serviceView>
++        <item itemvalue="Application.AddMapperBean" />
+       </list>
+-    </option>
++    </recent_temporary>
+   </component>
++  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="SvnConfiguration">
+     <configuration />
+   </component>
+@@ -246,77 +307,60 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1588934509358</updated>
+-      <workItem from="1588934516151" duration="16623000" />
++      <workItem from="1588934516151" duration="19669000" />
++      <workItem from="1591708603658" duration="254000" />
++      <workItem from="1600009554663" duration="666000" />
++      <workItem from="1601482205228" duration="2882000" />
++      <workItem from="1658454189357" duration="370000" />
++      <workItem from="1658454908538" duration="197000" />
++      <workItem from="1658455108649" duration="40000" />
++      <workItem from="1658456081976" duration="678000" />
++      <workItem from="1658472831441" duration="812000" />
++      <workItem from="1658475956748" duration="288000" />
++      <workItem from="1658476296598" duration="63000" />
++      <workItem from="1658480973403" duration="104000" />
++      <workItem from="1658481214168" duration="281000" />
++      <workItem from="1658481509920" duration="206000" />
++      <workItem from="1658481750903" duration="1244000" />
++      <workItem from="1658484623058" duration="674000" />
++      <workItem from="1658485301648" duration="642000" />
++      <workItem from="1658486029139" duration="1591000" />
++      <workItem from="1658487743669" duration="237000" />
++      <workItem from="1658487988154" duration="190000" />
++      <workItem from="1658488240797" duration="2003000" />
++      <workItem from="1658740128904" duration="3281000" />
++      <workItem from="1658745786831" duration="2620000" />
++      <workItem from="1658748517539" duration="2660000" />
++      <workItem from="1658805857189" duration="1700000" />
++      <workItem from="1658815748009" duration="21171000" />
++      <workItem from="1658882262489" duration="20223000" />
++    </task>
++    <task id="LOCAL-00001" summary="CQU Java project 3">
++      <created>1588952941921</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1588952941937</updated>
+     </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+-    <option name="version" value="1" />
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+-  <component name="WindowStateProjectService">
+-    <state x="237" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588946940982">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state x="237" y="79" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1562.839@0.0.1562.839" timestamp="1588946940982" />
+-    <state x="411" y="113" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog" timestamp="1588934569253">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state x="411" y="113" key="#com.intellij.ide.util.frameworkSupport.AddFrameworkSupportDialog/0.0.1562.839@0.0.1562.839" timestamp="1588934569253" />
+-    <state x="562" y="179" key="FileChooserDialogImpl" timestamp="1588952529473">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state x="562" y="179" key="FileChooserDialogImpl/0.0.1562.839@0.0.1562.839" timestamp="1588952529473" />
+-    <state width="1042" height="241" key="GridCell.Tab.0.bottom" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.0.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.0.center" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.0.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.0.left" timestamp="1588951882890">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.0.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882890" />
+-    <state width="1042" height="241" key="GridCell.Tab.0.right" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.0.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.1.bottom" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.1.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.1.center" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.1.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.1.left" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.1.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.1.right" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.1.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.2.bottom" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.2.bottom/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.2.center" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.2.center/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.2.left" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.2.left/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state width="1042" height="241" key="GridCell.Tab.2.right" timestamp="1588951882891">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state width="1042" height="241" key="GridCell.Tab.2.right/0.0.1562.839@0.0.1562.839" timestamp="1588951882891" />
+-    <state x="262" y="0" key="SettingsEditor" timestamp="1588946205882">
+-      <screen x="0" y="0" width="1562" height="839" />
+-    </state>
+-    <state x="262" y="0" key="SettingsEditor/0.0.1562.839@0.0.1562.839" timestamp="1588946205882" />
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="CQU Java project 3" />
++    <option name="LAST_COMMIT_MESSAGE" value="CQU Java project 3" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: web/WEB-INF/jsp/home.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/web/WEB-INF/jsp/home.jsp b/web/WEB-INF/jsp/home.jsp
+new file mode 100644
+--- /dev/null	(date 1658911522202)
++++ b/web/WEB-INF/jsp/home.jsp	(date 1658911522202)
+@@ -0,0 +1,22 @@
++<%--
++  Created by IntelliJ IDEA.
++  User: 刘文泽
++  Date: 2020/5/8
++  Time: 18:42
++  To change this template use File | Settings | File Templates.
++--%>
++<%@ page contentType="text/html;charset=UTF-8" language="java" %>
++<html>
++<head>
++  <meta charset="UTF-8">
++  <title>图书管理系统 v1.0.0</title>
++</head>
++<body>
++<h1>请登陆系统，该系统30天内免登陆</h1>
++<form method='post' action='/login/login'>
++  <h4>用户名</h4><input type='text' name='username'><br/>
++  <h4>密码</h4>><input type='password' name='password'><br/>
++  <input type="submit" value="login">
++</form>
++</body>
++</html>
+Index: src/main/resources/mybatis/config.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/resources/mybatis/config.xml b/src/main/resources/mybatis/config.xml
+new file mode 100644
+--- /dev/null	(date 1658903226260)
++++ b/src/main/resources/mybatis/config.xml	(date 1658903226260)
+@@ -0,0 +1,32 @@
++<?xml version="1.0" encoding="UTF-8" ?>
++<!DOCTYPE configuration
++        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
++        "http://mybatis.org/dtd/mybatis-3-config.dtd">
++<configuration>
++
++    <settings>
++        <!-- 打印查询语句 -->
++        <setting name="logImpl" value="STDOUT_LOGGING" />
++    </settings>
++
++    <!-- 和Spring整合后environment配置都会被干掉 -->
++    <environments default="development">
++        <environment id="development">
++            <!-- 使用jdbc事务管理，目前由mybatis来管理 -->
++            <transactionManager type="JDBC" />
++            <!-- 数据库连接池，目前由mybatis来管理 -->
++            <dataSource type="POOLED"><!--有关于mysql数据库的各种信息-->
++                <property name="driver" value="com.mysql.cj.jdbc.Driver" />
++                <property name="url" value="jdbc:mysql://localhost:3306/jdbc?characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=UTC&amp;rewriteBatchedStatements=true" />
++                <property name="username" value="root" />
++                <property name="password" value="liuwenze0501" />
++            </dataSource>
++        </environment>
++    </environments>
++
++    <mappers>
++        <!--将操作配置文件系添加进mapper-->
++        <mapper resource="mapping/DBBookMapper.xml" />
++        <mapper resource="mapping/DBUserMapper.xml" />
++    </mappers>
++</configuration>
+\ No newline at end of file
